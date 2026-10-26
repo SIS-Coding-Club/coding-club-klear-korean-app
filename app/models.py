@@ -6,6 +6,7 @@ from sqlalchemy import (
     String
 )
 
+from sqlalchemy import JSON
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .database import Base
@@ -49,4 +50,23 @@ class LoginSession(Base):
     expires_at: Mapped[datetime] = mapped_column(
         DateTime(),
         nullable=False
+    )
+
+
+class ModuleParticlesProblems(Base):
+    __tablename__ = "module_particle_problems"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    difficulty: Mapped[int] = mapped_column(default=1)
+
+    sentence_before: Mapped[str] = mapped_column(String(255))
+    sentence_after: Mapped[str] = mapped_column(String(255))
+
+    correct_answer: Mapped[str] = mapped_column(String(50))
+    wrong_answers: Mapped[list[str]] = mapped_column(JSON)
+
+    explanation: Mapped[str] = mapped_column(
+        String(1000),
+        nullable=True
     )
